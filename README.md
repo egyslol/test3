@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>361 Viewer of toy muesum </title>
+  <title>toy muesum</title>
   <style>
     html, body {
       margin: 0;
@@ -102,7 +102,7 @@
   <script>
     const rooms = {
       room1: {
-        panorama: 'test1.1.JPG',
+        panorama: 'office.jpg',
         hotspots: [
           { pitch: 10, yaw: 100, type: 'navigation', target: 'room2' },
           { pitch: 5, yaw: 20, type: 'info', id: 'text' },
