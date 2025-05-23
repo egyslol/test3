@@ -108,20 +108,25 @@
           { pitch: 5, yaw: 20, type: 'info', id: 'text' },
           { pitch: -12, yaw: -145, type: 'info', id: 'laksa.jpg' },
           { pitch: -18, yaw: -185, type: 'info', id: 'laksa' },
-          { pitch: 15, yaw: 60, type: 'info', id: 'video' }
+          { pitch: 15, yaw: 60, type: 'info', id: 'laksa.jpg' } // Changed from video to image
         ]
       },
       room2: {
         panorama: 'room1.jpg',
         hotspots: [
           { pitch: 0, yaw: -100, type: 'navigation', target: 'room1' },
-          { pitch: 10, yaw: 100, type: 'navigation', target: 'room3' }
+          { pitch: 10, yaw: 100, type: 'navigation', target: 'room3' },
+          { pitch: -10, yaw: 30, type: 'info', id: 'text' },
+          { pitch: 5, yaw: -60, type: 'info', id: 'laksa' }
         ]
       },
       room3: {
         panorama: 'classroom 1.jpg',
         hotspots: [
-          { pitch: 0, yaw: -100, type: 'navigation', target: 'room2' }
+          { pitch: 0, yaw: -100, type: 'navigation', target: 'room2' },
+          { pitch: 15, yaw: 80, type: 'info', id: 'laksa.jpg' },
+          { pitch: -5, yaw: 150, type: 'info', id: 'text' },
+          { pitch: -20, yaw: -40, type: 'info', id: 'laksa.jpg' } // Changed from video to image
         ]
       }
     };
@@ -197,28 +202,29 @@
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Room dots
+      const roomPositions = { room1: 40, room2: 90, room3: 140 };
+
+      // Draw room nodes
       ctx.fillStyle = 'white';
-      [50, 100, 125].forEach((x) => {
+      for (let x of Object.values(roomPositions)) {
         ctx.beginPath();
         ctx.arc(x, 75, 10, 0, 2 * Math.PI);
         ctx.fill();
-      });
+      }
 
-      // Connecting lines
+      // Draw connections
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(50, 75);
-      ctx.lineTo(100, 75);
-      ctx.lineTo(125, 75);
+      ctx.moveTo(roomPositions.room1, 75);
+      ctx.lineTo(roomPositions.room2, 75);
+      ctx.lineTo(roomPositions.room3, 75);
       ctx.stroke();
 
       // Highlight current room
-      const xMap = { room1: 50, room2: 100, room3: 125 };
       ctx.fillStyle = 'lime';
       ctx.beginPath();
-      ctx.arc(xMap[currentRoom], 75, 5, 0, 2 * Math.PI);
+      ctx.arc(roomPositions[currentRoom], 75, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
 
@@ -226,3 +232,4 @@
   </script>
 </body>
 </html>
+
