@@ -119,7 +119,7 @@
       room3: {
         panorama: 'room1.jpg',
         hotspots: [
-          { pitch: 0, yaw: -150, type: 'navigation', target: 'room1' }
+          { pitch: 5, yaw: -150, type: 'navigation', target: 'room1' }
         ]
       }
     };
@@ -154,6 +154,16 @@
           type: 'equirectangular',
           panorama: rooms.room2.panorama,
           hotSpots: rooms.room2.hotspots.map(h => ({
+            pitch: h.pitch,
+            yaw: h.yaw,
+            type: 'custom',
+            createTooltipFunc: hotspotCreator,
+            createTooltipArgs: h
+
+         room3: {
+          type: 'equirectangular',
+          panorama: rooms.room3.panorama,
+          hotSpots: rooms.room3.hotspots.map(h => ({
             pitch: h.pitch,
             yaw: h.yaw,
             type: 'custom',
