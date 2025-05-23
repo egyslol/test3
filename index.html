@@ -121,6 +121,13 @@
 
     let currentRoom = 'room1';
 
+    const overlayContentMap = {
+      text: `<h2>Welcome!</h2><p>This is Text example</p>`,
+      'laksa.jpg': `<h2>Artifact Display</h2><p>This is a laksa</p><img src="laksa.jpg" alt="laksa yummy">`,
+      'laksa': `<h2>Artifact Display</h2><p>This is a laksa</p><img src="laksa.jpg" alt="laksa yummy">`,
+      video: `<h2>Restoration Video</h2><p>Watch how this place was restored over time.</p><video controls><source src="documentary.mp4" type="video/mp4">Your browser does not support the video tag.</video>`
+    };
+
     const viewer = pannellum.viewer('viewer', {
       default: {
         firstScene: 'room1',
@@ -164,12 +171,8 @@
         hotSpotDiv.title = 'More Info';
 
         hotSpotDiv.addEventListener('click', () => {
-          if (args.id === 'text') {
-            showOverlay(`<h2>Welcome!</h2><p>This is Text example</p>`);
-          } else if (args.id === 'image') {
-            showOverlay(`<h2>Artifact Display</h2><p>This is a laksa</p><img src="laksa.jpg" alt="laksa yummy">`);
-          } else if (args.id === 'video') {
-            showOverlay(`<h2>Restoration Video</h2><p>Watch how this place was restored over time.</p><video controls><source src="documentary.mp4" type="video/mp4">Your browser does not support the video tag.</video>`);
+          if (overlayContentMap[args.id]) {
+            showOverlay(overlayContentMap[args.id]);
           }
         });
       }
