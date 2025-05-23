@@ -114,7 +114,14 @@
       room2: {
         panorama: 'room1.jpg',
         hotspots: [
-          { pitch: 0, yaw: -100, type: 'navigation', target: 'room1' }
+          { pitch: 0, yaw: -100, type: 'navigation', target: 'room1' },
+          { pitch: 10, yaw: 100, type: 'navigation', target: 'room3' }
+        ]
+      },
+      room3: {
+        panorama: 'room1.jpg',
+        hotspots: [
+          { pitch: 0, yaw: -100, type: 'navigation', target: 'room2' }
         ]
       }
     };
@@ -133,30 +140,22 @@
         firstScene: 'room1',
         sceneFadeDuration: 1000
       },
-      scenes: {
-        room1: {
-          type: 'equirectangular',
-          panorama: rooms.room1.panorama,
-          hotSpots: rooms.room1.hotspots.map(h => ({
-            pitch: h.pitch,
-            yaw: h.yaw,
-            type: 'custom',
-            createTooltipFunc: hotspotCreator,
-            createTooltipArgs: h
-          }))
-        },
-        room2: {
-          type: 'equirectangular',
-          panorama: rooms.room2.panorama,
-          hotSpots: rooms.room2.hotspots.map(h => ({
-            pitch: h.pitch,
-            yaw: h.yaw,
-            type: 'custom',
-            createTooltipFunc: hotspotCreator,
-            createTooltipArgs: h
-         }))
-        }
-      }
+      scenes: Object.fromEntries(
+        Object.entries(rooms).map(([name, data]) => [
+          name,
+          {
+            type: 'equirectangular',
+            panorama: data.panorama,
+            hotSpots: data.hotspots.map(h => ({
+              pitch: h.pitch,
+              yaw: h.yaw,
+              type: 'custom',
+              createTooltipFunc: hotspotCreator,
+              createTooltipArgs: h
+            }))
+          }
+        ])
+      )
     });
 
     function hotspotCreator(hotSpotDiv, args) {
@@ -200,25 +199,26 @@
 
       // Room dots
       ctx.fillStyle = 'white';
-      ctx.beginPath();
-      ctx.arc(50, 75, 10, 0, 2 * Math.PI);
-      ctx.fill();
+      [50, 100, 125].forEach((x) => {
+        ctx.beginPath();
+        ctx.arc(x, 75, 10, 0, 2 * Math.PI);
+        ctx.fill();
+      });
 
-      ctx.beginPath();
-      ctx.arc(100, 75, 10, 0, 2 * Math.PI);
-      ctx.fill();
-
+      // Connecting lines
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(50, 75);
       ctx.lineTo(100, 75);
+      ctx.lineTo(125, 75);
       ctx.stroke();
 
       // Highlight current room
+      const xMap = { room1: 50, room2: 100, room3: 125 };
       ctx.fillStyle = 'lime';
       ctx.beginPath();
-      ctx.arc(currentRoom === 'room1' ? 50 : 100, 75, 5, 0, 2 * Math.PI);
+      ctx.arc(xMap[currentRoom], 75, 5, 0, 2 * Math.PI);
       ctx.fill();
     }
 
