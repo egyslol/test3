@@ -154,7 +154,8 @@
             hotSpots: data.hotspots.map(h => ({
               pitch: h.pitch,
               yaw: h.yaw,
-              type: 'custom',
+              type: h.custom,
+              text: `${h.type === 'navigation' '⤴' ? : h.text}`,
               createTooltipFunc: hotspotCreator,
               createTooltipArgs: h
             }))
@@ -165,13 +166,10 @@
 
     function hotspotCreator(hotSpotDiv, args) {
       hotSpotDiv.classList.add('hotspot');
-        hotSpotDiv.textContent = "";
       if (args.type === 'navigation') {
-        hotSpotDiv.textContent = '⤴';
         hotSpotDiv.title = 'Go to another room';
         hotSpotDiv.addEventListener('click', () => switchRoom(args.target));
       } else {
-        hotSpotDiv.textContent = args.text;
         hotSpotDiv.title = args.type;
 
         hotSpotDiv.addEventListener('click', () => {
