@@ -165,7 +165,7 @@
 
     function hotspotCreator(hotSpotDiv, args) {
       hotSpotDiv.classList.add('hotspot');
-
+        hotSpotDiv.textContent = "";
       if (args.type === 'navigation') {
         hotSpotDiv.textContent = '⤴';
         hotSpotDiv.title = 'Go to another room';
