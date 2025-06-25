@@ -105,10 +105,10 @@
         panorama: 'toy meusum.jpg',
         hotspots: [
           { pitch: 0, yaw: 100, type: 'navigation', target: 'room2' },
-          { pitch: -14, yaw: -12, type: 'info', id: 'text' },
-          { pitch: -12, yaw: -118, type: '2', id: 'laksa.jpg' },
-          { pitch: -18, yaw: -185, type: '3', id: 'laksa' },
-          { pitch: 15, yaw: 60, type: '4', id: 'laksa.jpg' } // Changed from video to image
+          { pitch: -14, yaw: -12, type: 'info', text: '1', id: 'text' },
+          { pitch: -12, yaw: -118, type: 'info',  text: '2', id: 'laksa.jpg' },
+          { pitch: -18, yaw: -185, type: 'info',  text: '3', id: 'laksa' },
+          { pitch: 15, yaw: 60, type: 'info',  text: '4', id: 'laksa.jpg' } // Changed from video to image
         ]
       },
       room2: {
@@ -171,8 +171,8 @@
         hotSpotDiv.title = 'Go to another room';
         hotSpotDiv.addEventListener('click', () => switchRoom(args.target));
       } else {
-        hotSpotDiv.textContent = 'info';
-        hotSpotDiv.title = 'More Info';
+        hotSpotDiv.textContent = args.text;
+        hotSpotDiv.title = args.type;
 
         hotSpotDiv.addEventListener('click', () => {
           if (overlayContentMap[args.id]) {
