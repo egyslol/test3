@@ -155,7 +155,6 @@
               pitch: h.pitch,
               yaw: h.yaw,
               type: h.custom,
-              text: `${h.type === 'navigation' ? '⤴': h.text}`,
               createTooltipFunc: hotspotCreator,
               createTooltipArgs: h
             }))
@@ -166,11 +165,14 @@
 
     function hotspotCreator(hotSpotDiv, args) {
       hotSpotDiv.classList.add('hotspot');
+      let p = document.createElement("p");
       if (args.type === 'navigation') {
         hotSpotDiv.title = 'Go to another room';
+        p.textContent = '⤴';
         hotSpotDiv.addEventListener('click', () => switchRoom(args.target));
       } else {
         hotSpotDiv.title = args.type;
+        p.textContent = args.text;
 
         hotSpotDiv.addEventListener('click', () => {
           if (overlayContentMap[args.id]) {
@@ -178,6 +180,7 @@
           }
         });
       }
+      hotSpotDiv.append(p);
     }
 
     function showOverlay(html) {
