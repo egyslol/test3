@@ -155,7 +155,7 @@
               pitch: h.pitch,
               yaw: h.yaw,
               type: h.custom,
-              text: `${h.type === 'navigation' '⤴' ? : h.text}`,
+              text: `${h.type === 'navigation' ? '⤴': h.text}`,
               createTooltipFunc: hotspotCreator,
               createTooltipArgs: h
             }))
