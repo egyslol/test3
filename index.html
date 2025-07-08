@@ -17,17 +17,6 @@
       height: 100%;
     }
 
-    #minimap {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 150px;
-      height: 150px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border: 2px solid #fff;
-      border-radius: 10px;
-    }
-
     .hotspot {
       width: 32px;
       height: 32px;
@@ -91,7 +80,6 @@
 </head>
 <body>
   <div id="viewer"></div>
-  <canvas id="minimap"></canvas>
 
   <div id="overlay-bg" onclick="hideOverlay()">
     <div id="overlay" onclick="event.stopPropagation()">
@@ -108,15 +96,13 @@
       room1: {
         panorama: 'toy meusum.jpg',
         hotspots: [
-          { pitch: 0, yaw: 100, type: 'navigation', target: 'room2' },
           { pitch: -14, yaw: -12, type: 'info', text: '1', id: 'text' },
           { pitch: -12, yaw: -118, type: 'info',  text: '2', id: 'laksa.jpg' },
           { pitch: -18, yaw: -185, type: 'info',  text: '3', id: 'laksa' },
-          { pitch: 15, yaw: 60, type: 'info',  text: '4', id: 'laksa.jpg' } // Changed from video to image
+          { pitch: 15, yaw: 60, type: 'info',  text: '4', id: 'laksa.jpg' }
         ]
-      },
-
-    let currentRoom = 'room1';
+      }
+    };
 
     const overlayContentMap = {
       text: `<h2>Welcome!</h2><p>This is Text example</p>`,
@@ -151,20 +137,15 @@
     function hotspotCreator(hotSpotDiv, args) {
       hotSpotDiv.classList.add('hotspot');
       let p = document.createElement("p");
-      if (args.type === 'navigation') {
-        hotSpotDiv.title = 'Go to another room';
-        p.textContent = '⤴';
-        hotSpotDiv.addEventListener('click', () => switchRoom(args.target));
-      } else {
-        hotSpotDiv.title = args.type;
-        p.textContent = args.text;
+      p.textContent = args.text || 'ℹ';
 
-        hotSpotDiv.addEventListener('click', () => {
-          if (overlayContentMap[args.id]) {
-            showOverlay(overlayContentMap[args.id]);
-          }
-        });
-      }
+      hotSpotDiv.title = args.type;
+      hotSpotDiv.addEventListener('click', () => {
+        if (overlayContentMap[args.id]) {
+          showOverlay(overlayContentMap[args.id]);
+        }
+      });
+
       hotSpotDiv.append(p);
     }
 
@@ -176,46 +157,6 @@
     function hideOverlay() {
       document.getElementById('overlay-bg').style.display = 'none';
     }
-
-    function switchRoom(roomName) {
-      currentRoom = roomName;
-      viewer.loadScene(roomName);
-      drawMiniMap();
-    }
-
-    function drawMiniMap() {
-      const canvas = document.getElementById('minimap');
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const roomPositions = { room1: 40, room2: 90, room3: 140 };
-
-      // Draw room nodes
-      ctx.fillStyle = 'white';
-      for (let x of Object.values(roomPositions)) {
-        ctx.beginPath();
-        ctx.arc(x, 75, 10, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-
-      // Draw connections
-      ctx.strokeStyle = 'white';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(roomPositions.room1, 75);
-      ctx.lineTo(roomPositions.room2, 75);
-      ctx.lineTo(roomPositions.room3, 75);
-      ctx.stroke();
-
-      // Highlight current room
-      ctx.fillStyle = 'lime';
-      ctx.beginPath();
-      ctx.arc(roomPositions[currentRoom], 75, 5, 0, 2 * Math.PI);
-      ctx.fill();
-    }
-
-    drawMiniMap();
   </script>
 </body>
 </html>
-
