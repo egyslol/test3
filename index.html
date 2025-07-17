@@ -20,7 +20,7 @@
     .hotspot {
       width: 32px;
       height: 32px;
-      background-color: white;
+      background-color: none;
       border-radius: 50%;
       border: 2px solid black;
       display: flex;
@@ -75,17 +75,52 @@
       max-width: 100%;
       margin-top: 15px;
       border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Modal for enlarged image */
+    #img-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #img-modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    #img-modal:after {
+      content: "✕";
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div id="viewer"></div>
 
+  <!-- Overlay Panel -->
   <div id="overlay-bg" onclick="hideOverlay()">
     <div id="overlay" onclick="event.stopPropagation()">
       <button onclick="hideOverlay()">Close</button>
       <div id="overlay-content"></div>
     </div>
+  </div>
+
+  <!-- Enlarged Image Modal -->
+  <div id="img-modal" onclick="hideImageModal()">
+    <img id="modal-img" src="" alt="Enlarged" />
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
@@ -96,18 +131,20 @@
       room1: {
         panorama: 'toy meusum.jpg',
         hotspots: [
-          { pitch: -14, yaw: -12, type: 'info', text: '1', id: 'text' },
-          { pitch: -12, yaw: -118, type: 'info',  text: '2', id: 'laksa.jpg' },
-          { pitch: -18, yaw: -185, type: 'info',  text: '3', id: 'laksa' },
-          { pitch: 15, yaw: 60, type: 'info',  text: '4', id: 'laksa.jpg' }
+          { pitch: -14, yaw: -12, type: 'info', text: '1', id: 'chapteh1' },
+          { pitch: -20, yaw: -185, type: 'info',  text: '3', id: 'goli1' },
+          { pitch: -25, yaw: 10, type: 'info',  text: '4', id: 'kutikuti1' },
+          { pitch: -12, yaw: -70, type: 'info',  text: '5', id: 'gasing1' }
         ]
       }
     };
 
     const overlayContentMap = {
       text: `<h2>Welcome!</h2><p>This is Text example</p>`,
-      'laksa.jpg': `<h2>Artifact Display</h2><p>This is a laksa</p><img src="laksa.jpg" alt="laksa yummy">`,
-      'laksa': `<h2>Artifact Display</h2><p>This is a laksa</p><img src="laksa.jpg" alt="laksa yummy">`,
+      'goli1': `<h2>Artifact Display</h2><p>This is 1</p><img src="goli1.jpg" alt=""><img src="goli2.jpg" alt="">`,
+      'gasing1': `<h2>Artifact Display</h2><p>This is 2</p><img src="gasing1.jpg" alt=""><img src="gasing2.jpg" alt="">`,
+      'kutikuti1': `<h2>Artifact Display</h2><p>This is 3</p><img src="kutikuti1.jpg" alt=""><img src="kutikuti2.jpg" alt="">`,
+      'chapteh1': `<h2>Artifact Display</h2><p>This is 4</p><img src="chapteh1.jpg" alt=""><img src="chapteh2.jpg" alt="">`,
       video: `<h2>Restoration Video</h2><p>Watch how this place was restored over time.</p><video controls><source src="documentary.mp4" type="video/mp4">Your browser does not support the video tag.</video>`
     };
 
@@ -138,24 +175,40 @@
       hotSpotDiv.classList.add('hotspot');
       let p = document.createElement("p");
       p.textContent = args.text || 'ℹ';
-
       hotSpotDiv.title = args.type;
       hotSpotDiv.addEventListener('click', () => {
         if (overlayContentMap[args.id]) {
           showOverlay(overlayContentMap[args.id]);
         }
       });
-
       hotSpotDiv.append(p);
     }
 
     function showOverlay(html) {
-      document.getElementById('overlay-content').innerHTML = html;
+      const content = document.getElementById('overlay-content');
+      content.innerHTML = html;
+
+      // Add zoom click listener to images
+      content.querySelectorAll("img").forEach(img => {
+        img.addEventListener("click", () => {
+          showImageModal(img.src);
+        });
+      });
+
       document.getElementById('overlay-bg').style.display = 'block';
     }
 
     function hideOverlay() {
       document.getElementById('overlay-bg').style.display = 'none';
+    }
+
+    function showImageModal(src) {
+      document.getElementById("modal-img").src = src;
+      document.getElementById("img-modal").style.display = "flex";
+    }
+
+    function hideImageModal() {
+      document.getElementById("img-modal").style.display = "none";
     }
   </script>
 </body>
