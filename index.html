@@ -20,7 +20,6 @@
     .hotspot {
       width: 32px;
       height: 32px;
-      background-color: none;
       border-radius: 50%;
       border: 2px solid black;
       display: flex;
@@ -78,7 +77,6 @@
       cursor: pointer;
     }
 
-    /* Modal for enlarged image */
     #img-modal {
       display: none;
       position: fixed;
@@ -110,7 +108,6 @@
 <body>
   <div id="viewer"></div>
 
-  <!-- Overlay Panel -->
   <div id="overlay-bg" onclick="hideOverlay()">
     <div id="overlay" onclick="event.stopPropagation()">
       <button onclick="hideOverlay()">Close</button>
@@ -118,7 +115,6 @@
     </div>
   </div>
 
-  <!-- Enlarged Image Modal -->
   <div id="img-modal" onclick="hideImageModal()">
     <img id="modal-img" src="" alt="Enlarged" />
   </div>
@@ -132,20 +128,42 @@
         panorama: 'toy meusum.jpg',
         hotspots: [
           { pitch: -14, yaw: -12, type: 'info', text: '1', id: 'chapteh1' },
-          { pitch: -20, yaw: -185, type: 'info',  text: '3', id: 'goli1' },
-          { pitch: -25, yaw: 10, type: 'info',  text: '4', id: 'kutikuti1' },
-          { pitch: -12, yaw: -70, type: 'info',  text: '5', id: 'gasing1' }
+          { pitch: -20, yaw: -185, type: 'info', text: '3', id: 'goli1' },
+          { pitch: -25, yaw: 10, type: 'info', text: '4', id: 'kutikuti1' },
+          { pitch: -12, yaw: -70, type: 'info', text: '5', id: 'gasing1' }
         ]
       }
     };
 
     const overlayContentMap = {
-      text: `<h2>Welcome!</h2><p>This is Text example</p>`,
-      'goli1': `<h2>Artifact Display</h2><p>This is 1</p><img src="goli1.jpg" alt=""><img src="goli2.jpg" alt="">`,
-      'gasing1': `<h2>Artifact Display</h2><p>This is 2</p><img src="gasing1.jpg" alt=""><img src="gasing2.jpg" alt="">`,
-      'kutikuti1': `<h2>Artifact Display</h2><p>This is 3</p><img src="kutikuti1.jpg" alt=""><img src="kutikuti2.jpg" alt="">`,
-      'chapteh1': `<h2>Artifact Display</h2><p>This is 4</p><img src="chapteh1.jpg" alt=""><img src="chapteh2.jpg" alt="">`,
-      video: `<h2>Restoration Video</h2><p>Watch how this place was restored over time.</p><video controls><source src="documentary.mp4" type="video/mp4">Your browser does not support the video tag.</video>`
+      'chapteh1': `
+        <h2>Chapteh</h2>
+        <p>This is 4</p>
+        <img src="chapteh1.jpg" alt="">
+        <img src="chapteh4.jpg" alt="">
+        <video controls><source src="chapteh.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+      `,
+      'goli1': `
+        <h2>Goli</h2>
+        <p>This is 1</p>
+        <img src="goli1.jpg" alt="">
+        <img src="goli2.jpg" alt="">
+        <video controls><source src="goli.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+      `,
+      'kutikuti1': `
+        <h2>Kuti Kuti</h2>
+        <p>This is 3</p>
+        <img src="kutikuti1.jpg" alt="">
+        <img src="kutikuti4.jpg" alt="">
+        <video controls><source src="kutikuti.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+      `,
+      'gasing1': `
+        <h2>Gasing</h2>
+        <p>This is 2</p>
+        <img src="gasing1.jpg" alt="">
+        <img src="gasing4.jpg" alt="">
+        <video controls><source src="gasing vid1.mp4" type="video/mp4">Your browser does not support the video tag.</video>
+      `
     };
 
     const viewer = pannellum.viewer('viewer', {
